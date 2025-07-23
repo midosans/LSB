@@ -1,17 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:lsb/widgets/login_widget.dart';
 
-class LoginScreen extends StatefulWidget {
+class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
 
-  @override
-  State<LoginScreen> createState() => _LoginScreenState();
-}
-
-class _LoginScreenState extends State<LoginScreen> {
-  final formkey = GlobalKey<FormState>();
-  bool isobsecure = true;
-  bool ischecked = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(

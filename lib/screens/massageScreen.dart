@@ -5,7 +5,7 @@ import 'package:lsb/widgets/custom_Text.dart';
 class Massagescreen extends StatelessWidget {
   const Massagescreen({super.key});
   final List<CustomText> tiles = const [
-    CustomText(text: 'message', color: ColorsHelper.white, fontSize: 18)
+    CustomText(text: 'message', color: ColorsHelper.white, fontSize: 18),
   ];
 
   @override
@@ -24,12 +24,20 @@ class Massagescreen extends StatelessWidget {
           children: [
             Align(
               alignment: Alignment.centerLeft,
-              child: CustomText(text: 'Saved message', color: ColorsHelper.orange, fontSize: 24) 
+              child: CustomText(
+                text: 'Saved message',
+                color: ColorsHelper.orange,
+                fontSize: 24,
+              ),
             ),
             SizedBox(height: 40),
             Align(
               alignment: Alignment.centerLeft,
-              child: CustomText(text: '  Your Messages', color: ColorsHelper.white, fontSize: 24)
+              child: CustomText(
+                text: '  Your Messages',
+                color: ColorsHelper.white,
+                fontSize: 24,
+              ),
             ),
             const Divider(thickness: 1, indent: 10, endIndent: 10, height: 15),
             Padding(

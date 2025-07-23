@@ -12,33 +12,45 @@ class WelcomePage extends StatelessWidget {
     return Scaffold(
       extendBody: true,
       body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Image.asset('assets/main.png' , width: 300, height: 320),
-              SizedBox(height: 100),
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: CustomButton(size: Size(250,50) , text: 'login', color: ColorsHelper.orange, fontSize: 19,
-                  onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(
-                      builder: (context) => const LoginScreen(),
-                    ));
-                  },
-                ),
-              ),
-              SizedBox(height: 20),
-              CustomButton(size: Size(250, 50), text: "sign up", color: ColorsHelper.orange, fontSize: 19,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Image.asset('assets/main.png', width: 300, height: 320),
+            SizedBox(height: 100),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: CustomButton(
+                size: Size(250, 50),
+                text: 'login',
+                color: ColorsHelper.orange,
+                fontSize: 19,
                 onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(
-                    builder: (context) => const SignupScreen(),
-                  ));
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const LoginScreen(),
+                    ),
+                  );
                 },
               ),
-            ],
-          ),
+            ),
+            SizedBox(height: 20),
+            CustomButton(
+              size: Size(250, 50),
+              text: "sign up",
+              color: ColorsHelper.orange,
+              fontSize: 19,
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const SignupScreen()),
+                );
+              },
+            ),
+          ],
         ),
+      ),
     );
   }
 }

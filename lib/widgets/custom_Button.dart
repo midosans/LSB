@@ -6,7 +6,7 @@ class CustomButton extends StatelessWidget {
     required this.size,
     required this.text,
     this.onPressed,
-    required this.color, 
+    required this.color,
     this.fontSize,
   });
   final Size size;
@@ -25,7 +25,11 @@ class CustomButton extends StatelessWidget {
       onPressed: onPressed ?? () {},
       child: Text(
         text,
-        style: TextStyle(color: Colors.white,fontSize: fontSize ?? 18, fontFamily: 'Kdam Thmor Pro'),
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: fontSize ?? 18,
+          fontFamily: 'Kdam Thmor Pro',
+        ),
       ),
     );
   }

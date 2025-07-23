@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:lsb/helper/Colors_Helper.dart';
 import 'package:lsb/screens/embedScreen.dart';
-import 'package:lsb/screens/extractScreen.dart'; 
-import 'package:lsb/screens/homeScreen.dart'; 
+import 'package:lsb/screens/extractScreen.dart';
+import 'package:lsb/screens/homeScreen.dart';
 import 'package:lsb/screens/massageScreen.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -18,7 +19,7 @@ class _MyWidgetState extends State<HomePage> {
     Homescreen(),
     Embedscreen(),
     Extractscreen(),
-    Massagescreen()
+    Massagescreen(),
   ];
 
   @override
@@ -38,10 +39,11 @@ class _MyWidgetState extends State<HomePage> {
           Image.asset('assets/decoder.png', width: 30, height: 30),
           Image.asset('assets/encoder.png', width: 30, height: 30),
           Image.asset('assets/saves.png', width: 30, height: 30),
-          ],
-        onTap: (index) => setState(() {
-          this.index = index;
-        }),
+        ],
+        onTap:
+            (index) => setState(() {
+              this.index = index;
+            }),
       ),
     );
   }
