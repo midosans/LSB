@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lsb/helper/Colors_Helper.dart';
+import 'package:lsb/widgets/all_messages_widget.dart';
 import 'package:lsb/widgets/custom_Text.dart';
+import 'package:lsb/widgets/drawer.dart';
 
 class Massagescreen extends StatelessWidget {
   const Massagescreen({super.key});
@@ -12,48 +15,38 @@ class Massagescreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBody: true,
+      drawer: HomeDrawer(),
       appBar: AppBar(
-        title: const Text('Massage Screen'),
-        backgroundColor: ColorsHelper.orange,
+        iconTheme: IconThemeData(color: ColorsHelper.orange),
+        title: CustomText(
+                text: 'Saved message',
+                color: ColorsHelper.orange,
+                fontSize: 24.sp,
+              ),
+        backgroundColor: ColorsHelper.black,
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            Align(
-              alignment: Alignment.centerLeft,
-              child: CustomText(
-                text: 'Saved message',
-                color: ColorsHelper.orange,
-                fontSize: 24,
-              ),
-            ),
-            SizedBox(height: 40),
+            SizedBox(height: 20.h),
             Align(
               alignment: Alignment.centerLeft,
               child: CustomText(
                 text: '  Your Messages',
                 color: ColorsHelper.white,
-                fontSize: 24,
+                fontSize: 24.sp,
               ),
             ),
-            const Divider(thickness: 1, indent: 10, endIndent: 10, height: 15),
+             Divider(thickness: 1, indent: 10, endIndent: 10, height: 15.h),
             Padding(
               padding: const EdgeInsets.only(left: 20.0),
               child: SizedBox(
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: tiles.length,
-                  itemBuilder: (BuildContext, int i) {
-                    return Padding(
-                      padding: const EdgeInsets.only(bottom: 16),
-                      child: tiles[i],
-                    );
-                  },
-                ),
+                height: 300.h,
+                width: double.infinity,
+                child:AllMessagesWidget()
               ),
             ),
           ],

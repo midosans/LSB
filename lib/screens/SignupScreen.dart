@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:lsb/widgets/signup_widget.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:lsb/helper/Colors_Helper.dart';
+import 'package:lsb/widgets/signup_form.dart';
 
 class SignupScreen extends StatelessWidget {
   const SignupScreen({super.key});
@@ -8,29 +10,29 @@ class SignupScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        toolbarHeight: 30,
-        backgroundColor: Color(0xff252422),
+        toolbarHeight: 30.h,
+        backgroundColor: ColorsHelper.black,
         iconTheme: IconThemeData(
-          color: Colors.white, // Change the color of the back button
+          color: ColorsHelper.white
         ),
       ),
       extendBody: true,
       body: Center(
         child: SizedBox(
-          width: 300,
-          height: 550,
+          width: 300.w,
+          height: 550.h,
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 8),
+            padding: EdgeInsets.symmetric(horizontal: 20.0.w, vertical: 8.h),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Image(
                   image: AssetImage('assets/logo2.png'),
-                  height: 180,
-                  width: 200,
+                  height: 180.h,
+                  width: 200.w,
                 ),
-                SizedBox(height: 10),
-                SignupWidget(),
+                SizedBox(height: 10.h),
+                SignupForm(),
               ],
             ),
           ),

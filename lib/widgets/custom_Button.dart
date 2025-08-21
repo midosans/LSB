@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CustomButton extends StatelessWidget {
   const CustomButton({
-    super.key,
-    required this.size,
     required this.text,
-    this.onPressed,
+    required this.size,
     required this.color,
+    super.key,
     this.fontSize,
+    this.onPressed,
   });
-  final Size size;
   final String text;
+  final Size size;
   final Color color;
   final double? fontSize;
   final VoidCallback? onPressed;
@@ -27,7 +28,7 @@ class CustomButton extends StatelessWidget {
         text,
         style: TextStyle(
           color: Colors.white,
-          fontSize: fontSize ?? 18,
+          fontSize: fontSize ?? 18.sp,
           fontFamily: 'Kdam Thmor Pro',
         ),
       ),

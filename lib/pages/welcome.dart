@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lsb/helper/Colors_Helper.dart';
 import 'package:lsb/screens/LoginScreen.dart';
 import 'package:lsb/screens/SignupScreen.dart';
@@ -16,15 +17,15 @@ class WelcomePage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Image.asset('assets/main.png', width: 300, height: 320),
-            SizedBox(height: 100),
+            Image.asset('assets/main.png', width: 300.w, height: 320.h),
+            SizedBox(height: 100.h),
             Align(
               alignment: Alignment.bottomCenter,
               child: CustomButton(
-                size: Size(250, 50),
+                size: Size(150.w, 60.h),
                 text: 'login',
                 color: ColorsHelper.orange,
-                fontSize: 19,
+                fontSize: 19.sp,
                 onPressed: () {
                   Navigator.push(
                     context,
@@ -35,12 +36,12 @@ class WelcomePage extends StatelessWidget {
                 },
               ),
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 20.h),
             CustomButton(
-              size: Size(250, 50),
+              size: Size(150.w, 70.h),
               text: "sign up",
               color: ColorsHelper.orange,
-              fontSize: 19,
+              fontSize: 19.sp,
               onPressed: () {
                 Navigator.push(
                   context,

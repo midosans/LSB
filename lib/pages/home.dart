@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lsb/helper/Colors_Helper.dart';
 import 'package:lsb/screens/embedScreen.dart';
 import 'package:lsb/screens/extractScreen.dart';
@@ -25,20 +26,19 @@ class _MyWidgetState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //rgb(235, 94, 40)
       extendBody: true,
       body: screens[index],
       bottomNavigationBar: CurvedNavigationBar(
         color: ColorsHelper.orange,
         backgroundColor: Colors.transparent,
         animationDuration: Duration(milliseconds: 300),
-        height: 48,
+        height: 48.h,
         index: index,
         items: <Widget>[
-          Image.asset('assets/home.png', width: 30, height: 30),
-          Image.asset('assets/decoder.png', width: 30, height: 30),
-          Image.asset('assets/encoder.png', width: 30, height: 30),
-          Image.asset('assets/saves.png', width: 30, height: 30),
+          Image.asset('assets/home.png', width: 30.w, height: 30.h),
+          Image.asset('assets/decoder.png', width: 30.w, height: 30.h),
+          Image.asset('assets/encoder.png', width: 30.w, height: 30.h),
+          Image.asset('assets/saves.png', width: 30.w, height: 30.h),
         ],
         onTap:
             (index) => setState(() {

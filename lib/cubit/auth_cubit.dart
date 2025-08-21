@@ -6,10 +6,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthCubit extends Cubit<AuthState> {
   AuthCubit() : super(AuthInitial());
-  final Dio dio = Dio(); //ask
+  final Dio dio = Dio();
 
   Future<dynamic> register({
-    //make it in service file
     required String user_name,
     required String password,
     required String pass_confirm,
@@ -35,7 +34,6 @@ class AuthCubit extends Cubit<AuthState> {
       emit(RegeisterFailure(e.toString()));
     }
   }
-
   Future login({
     required String user_name,
     required String password,
@@ -44,6 +42,7 @@ class AuthCubit extends Cubit<AuthState> {
     final formData = FormData.fromMap({
       'user_name': user_name,
       'password': password,
+      // 'rememberMe' :  rememberMe
     });
     emit(LoginLoading());
     try {
@@ -56,14 +55,9 @@ class AuthCubit extends Cubit<AuthState> {
         final responseData = response.data as Map<String, dynamic>;
         final perf = await SharedPreferences.getInstance();
         if (rememberMe) {
-          await perf.setString(
-            'user_name',
-            responseData['user_name']?.toString() ?? '',
-          );
-          await perf.setString(
-            'token',
-            responseData['token']?.toString() ?? '',
-          );
+          await perf.setString('user_name', user_name);
+          await perf.setString('token', responseData['access_token']);
+          await perf.setString('refresh_token', responseData['refresh_token']);
         }
         emit(LoginSuccess());
         return response.data;
@@ -74,4 +68,4 @@ class AuthCubit extends Cubit<AuthState> {
       emit(LoginFailure(message: e.toString()));
     }
   }
-}
+  }

@@ -7,10 +7,6 @@ class Homescreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBody: true,
-      // appBar: AppBar(
-      //   title: const Text('Home Screen'),
-      //   backgroundColor: const Color(0xff252422),
-      // ),
       body: Center(
         child: Image.asset('assets/BG.png'),
       ),
