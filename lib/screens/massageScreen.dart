@@ -51,9 +51,12 @@ class Massagescreen extends StatelessWidget {
               ),
             ),
             Divider(thickness: 1, indent: 10, endIndent: 10, height: 15.h),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
-              child: AllMessagesWidget(messagesFuture: messagesFuture),
+            
+            Expanded(
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
+                child: AllMessagesWidget(messagesFuture: messagesFuture),
+              ),
             ),
           ],
         ),
