@@ -31,13 +31,32 @@ class Massagescreen extends StatelessWidget {
         actions: [
           IconButton(
             icon: const Icon(Icons.refresh, color: ColorsHelper.orange),
-            onPressed: onRefresh, // 🔄 refresh from parent
+            onPressed: onRefresh, 
           ),
         ],
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
-        child: AllMessagesWidget(messagesFuture: messagesFuture),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            SizedBox(height: 20.h),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: CustomText(
+                text: ' Your Messages',
+                color: ColorsHelper.white,
+                fontSize: 24.sp,
+              ),
+            ),
+            Divider(thickness: 1, indent: 10, endIndent: 10, height: 15.h),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
+              child: AllMessagesWidget(messagesFuture: messagesFuture),
+            ),
+          ],
+        ),
       ),
     );
   }
