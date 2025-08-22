@@ -99,7 +99,7 @@ class _LoginWidgetState extends State<LoginForm> {
                 ),
                 if (state is LoginLoading)
                   Container(
-                    color: Colors.black.withOpacity(0.3),
+                    color: Colors.black.withOpacity(0),
                     child: Center(
                       child: CircularProgressIndicator(
                         color: ColorsHelper.orange,

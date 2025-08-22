@@ -22,7 +22,7 @@ class WelcomePage extends StatelessWidget {
             Align(
               alignment: Alignment.bottomCenter,
               child: CustomButton(
-                size: Size(150.w, 60.h),
+                size: Size(170.w, 50.h),
                 text: 'login',
                 color: ColorsHelper.orange,
                 fontSize: 19.sp,
@@ -38,7 +38,7 @@ class WelcomePage extends StatelessWidget {
             ),
             SizedBox(height: 20.h),
             CustomButton(
-              size: Size(150.w, 70.h),
+              size: Size(170.w, 50.h),
               text: "sign up",
               color: ColorsHelper.orange,
               fontSize: 19.sp,

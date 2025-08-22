@@ -33,7 +33,14 @@ class MessageService {
         throw Exception("Unexpected error: ${response.statusCode}");
       }
     } catch (e) {
-      throw Exception("Error fetching messages: $e");
+    if (e is DioException && e.response != null) {
+      final data = e.response?.data;
+      final reason = data is Map<String, dynamic> ? data['reason'] : null;
+
+      throw Exception(reason ?? 'Request failed: ${e.response?.statusCode}');
+    } else {
+      throw Exception(e.toString());
     }
+  }
   }
 }

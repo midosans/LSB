@@ -28,38 +28,36 @@ class _EmbedFormState extends State<EmbedForm> {
   bool isObscureText = true;
   final _controller = TextEditingController();
   final formkey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<LsbCubit, LsbState>(
       listener: (context, state) {
-        if (state is EmbedLoading) {
-          // Show loading indicator
-        } else if (state is EmbedFailure) {
+        if (state is EmbedFailure) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text(state.message), backgroundColor: Colors.red),
           );
         } else if (state is EmbedSuccess) {
           showDialog(
             context: context,
-            builder:
-                (context) =>
-                    CustomEmbedPopup(image: state.image, bytes: state.bytes),
+            builder: (context) =>
+                CustomEmbedPopup(image: state.image, bytes: state.bytes),
           );
         }
       },
       builder: (context, state) {
-        return SingleChildScrollView(
-          child: Padding(
-            padding:  EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
-            child: Stack(
-              children: [
-                Form(
+        return Stack( 
+          children: [
+            SingleChildScrollView(
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
+                child: Form(
                   key: formkey,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                       SizedBox(height: 20.h),
+                      SizedBox(height: 20.h),
                       Align(
                         alignment: Alignment.centerLeft,
                         child: CustomText(
@@ -68,7 +66,7 @@ class _EmbedFormState extends State<EmbedForm> {
                           fontSize: 18.sp,
                         ),
                       ),
-                       SizedBox(height: 10.h),
+                      SizedBox(height: 10.h),
                       CustomTextfield(
                         LabelText: 'Enter your message',
                         onChanged: (value) {
@@ -79,12 +77,12 @@ class _EmbedFormState extends State<EmbedForm> {
                       Align(
                         alignment: Alignment.centerLeft,
                         child: CustomText(
-                          text: 'upload Image',
+                          text: 'Upload Image',
                           color: ColorsHelper.white,
                           fontSize: 18.sp,
                         ),
                       ),
-                       SizedBox(height: 10.h),
+                      SizedBox(height: 10.h),
                       CustomTextfield(
                         controller: _controller,
                         readOnly: true,
@@ -96,14 +94,13 @@ class _EmbedFormState extends State<EmbedForm> {
                             height: 30.h,
                           ),
                           onPressed: () async {
-                            final XFile? pickedFile = await ImagePicker().pickImage(
+                            final XFile? pickedFile =
+                                await ImagePicker().pickImage(
                               source: ImageSource.gallery,
                             );
-                
-                            if (pickedFile == null) {
-                              return;
-                            }
-                
+
+                            if (pickedFile == null) return;
+
                             setState(() {
                               pickedimg = pickedFile;
                               imageName = basename(pickedFile.path);
@@ -112,7 +109,7 @@ class _EmbedFormState extends State<EmbedForm> {
                           },
                         ),
                       ),
-                       SizedBox(height: 20.h),
+                      SizedBox(height: 20.h),
                       Align(
                         alignment: Alignment.centerLeft,
                         child: CustomText(
@@ -121,7 +118,7 @@ class _EmbedFormState extends State<EmbedForm> {
                           fontSize: 18.sp,
                         ),
                       ),
-                       SizedBox(height: 10.h),
+                      SizedBox(height: 10.h),
                       CustomTextfield(
                         LabelText: 'Enter your Password',
                         IsObscureText: isObscureText,
@@ -129,8 +126,7 @@ class _EmbedFormState extends State<EmbedForm> {
                           password = value;
                         },
                       ),
-                
-                       SizedBox(height: 70.h),
+                      SizedBox(height: 70.h),
                       Align(
                         alignment: Alignment.bottomRight,
                         child: CustomButton(
@@ -162,18 +158,18 @@ class _EmbedFormState extends State<EmbedForm> {
                     ],
                   ),
                 ),
-                if (state is EmbedLoading)
-                  Container(
-                    color: Colors.black.withOpacity(0.3),
-                    child: Center(
-                      child: CircularProgressIndicator(
-                        color: ColorsHelper.orange,
-                      ),
-                    ),
-                  ),
-              ],
+              ),
             ),
-          ),
+            if (state is EmbedLoading)
+              Container(
+                color: Colors.black.withOpacity(0.4), 
+                child: const Center(
+                  child: CircularProgressIndicator(
+                    color: Colors.orange,
+                  ),
+                ),
+              ),
+          ],
         );
       },
     );

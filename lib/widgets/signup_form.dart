@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lsb/cubit/auth_cubit.dart';
 import 'package:lsb/cubit/auth_state.dart';
 import 'package:lsb/helper/Colors_Helper.dart';
+import 'package:lsb/pages/home.dart';
 import 'package:lsb/widgets/custom_Button.dart';
 import 'package:lsb/widgets/custom_TextField.dart';
 
@@ -33,6 +34,12 @@ class _SignupWidgetState extends State<SignupForm> {
               backgroundColor: Colors.green,
             ),
           );
+          Future.delayed(Duration(seconds: 2));
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => HomePage()),
+          );
+          
         }
       },
       builder:
@@ -102,7 +109,7 @@ class _SignupWidgetState extends State<SignupForm> {
                 ),
                 if (state is RegisterLoading)
                   Container(
-                    color: Colors.black.withOpacity(0.3),
+                    color: Colors.black.withOpacity(0),
                     child: Center(
                       child: CircularProgressIndicator(
                         color: ColorsHelper.orange,

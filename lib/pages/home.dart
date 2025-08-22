@@ -6,25 +6,49 @@ import 'package:lsb/screens/extractScreen.dart';
 import 'package:lsb/screens/homeScreen.dart';
 import 'package:lsb/screens/massageScreen.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:lsb/services/get_message.dart';
+import 'package:lsb/services/refresh_service.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
   @override
-  State<HomePage> createState() => _MyWidgetState();
+  State<HomePage> createState() => _HomePageState();
 }
 
-class _MyWidgetState extends State<HomePage> {
+class _HomePageState extends State<HomePage> {
   int index = 0;
-  final screens = [
-    Homescreen(),
-    Embedscreen(),
-    Extractscreen(),
-    Massagescreen(),
-  ];
+  late Future<List<String>> messagesFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    messagesFuture = _loadMessages();
+  }
+
+  Future<List<String>> _loadMessages() async {
+    final refreshOk = await RefreshService();
+    if (!refreshOk) {
+      throw Exception("Refresh token expired, please login again");
+    }
+
+    final service = MessageService();
+    return await service.getAllMessages();
+  }
 
   @override
   Widget build(BuildContext context) {
+    final screens = [
+      Homescreen(),
+      Embedscreen(),
+      Extractscreen(),
+      Massagescreen(messagesFuture: messagesFuture, onRefresh: () {
+        setState(() {
+          messagesFuture = _loadMessages();
+        });
+      }),
+    ];
+
     return Scaffold(
       extendBody: true,
       body: screens[index],
@@ -40,10 +64,7 @@ class _MyWidgetState extends State<HomePage> {
           Image.asset('assets/encoder.png', width: 30.w, height: 30.h),
           Image.asset('assets/saves.png', width: 30.w, height: 30.h),
         ],
-        onTap:
-            (index) => setState(() {
-              this.index = index;
-            }),
+        onTap: (i) => setState(() => index = i),
       ),
     );
   }

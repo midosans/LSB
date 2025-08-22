@@ -1,5 +1,4 @@
 import 'package:bloc/bloc.dart';
-import 'package:flutter/material.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:dio/dio.dart';
 import 'package:lsb/cubit/lsb.state.dart';
@@ -74,9 +73,19 @@ class LsbCubit extends Cubit<LsbState> {
           ),
         );
       }
-    } catch (e) {
+    } 
+    catch (e) {
+    if (e is DioException && e.response != null) {
+      final data = e.response?.data;
+      final reason = data is Map<String, dynamic> ? data['reason'] : null;
+
+      emit(EmbedFailure(
+        message: reason ?? 'Request failed: ${e.response?.statusCode}',
+      ));
+    } else {
       emit(EmbedFailure(message: e.toString()));
     }
+  }
   }
   Future<void> extract({
     required String password,
@@ -135,9 +144,17 @@ class LsbCubit extends Cubit<LsbState> {
         );
       }
     } catch (e) {
-      debugPrint(e.toString());
+    if (e is DioException && e.response != null) {
+      final data = e.response?.data;
+      final reason = data is Map<String, dynamic> ? data['reason'] : null;
+
+      emit(ExtractFailure(
+        message: reason ?? 'Request failed: ${e.response?.statusCode}',
+      ));
+    } else {
       emit(ExtractFailure(message: e.toString()));
     }
+  }
   }
    Future saveMessage({
     required String message,
@@ -170,7 +187,16 @@ class LsbCubit extends Cubit<LsbState> {
           ));
       }
     } catch (e) {
+    if (e is DioException && e.response != null) {
+      final data = e.response?.data;
+      final reason = data is Map<String, dynamic> ? data['reason'] : null;
+
+      emit(SaveMessageFailure(
+        message: reason ?? 'Request failed: ${e.response?.statusCode}',
+      ));
+    } else {
       emit(SaveMessageFailure(message: e.toString()));
     }
+  }
   }
 }

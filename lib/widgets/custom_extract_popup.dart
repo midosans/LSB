@@ -50,10 +50,10 @@ class CustomExtractPopup extends StatelessWidget {
                   CustomText(
                     text: 'your massage',
                     color: ColorsHelper.white,
-                    fontSize: 30.sp,
+                    fontSize: 22.sp,
                   ),
                   CustomButton(
-                    size: Size(70.w, 50.h),
+                    size: Size(35.w, 35.h),
                     text: 'copy',
                     color: Colors.grey,
                     onPressed:(){ Clipboard.setData(ClipboardData(text: message!));
@@ -76,10 +76,12 @@ class CustomExtractPopup extends StatelessWidget {
                       color: Colors.transparent,
                       borderRadius: BorderRadius.circular(10.r),
                     ),
-                    child: CustomText(
-                      text: message ?? "",
-                      color: ColorsHelper.white,
-                      fontSize: 15.h,
+                    child: Center(
+                      child: CustomText(
+                        text: message ?? "",
+                        color: ColorsHelper.white,
+                        fontSize: 15.h,
+                      ),
                     ),
                   ),
                 ),
@@ -93,10 +95,12 @@ class CustomExtractPopup extends StatelessWidget {
                     color: ColorsHelper.orange,
                     onPressed: () async {
                       if (await RefreshService()) {
+                        Navigator.of(context).pop();
                         BlocProvider.of<LsbCubit>(
                           context,
                         ).saveMessage(message: message!);
                       } else {
+                        Navigator.of(context).pop();
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                             content: Text(

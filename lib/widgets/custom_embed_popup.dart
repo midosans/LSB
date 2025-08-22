@@ -57,10 +57,12 @@ class CustomEmbedPopup extends StatelessWidget {
                         bytes,
                         "embedded.png",
                       ); // use helper
+                      Navigator.of(context).pop();
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(content: Text("Image saved ✅")),
                       );
                     } catch (e) {
+                      Navigator.of(context).pop();
                       ScaffoldMessenger.of(
                         context,
                       ).showSnackBar(SnackBar(content: Text("Failed: $e")));

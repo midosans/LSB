@@ -6,10 +6,14 @@ import 'package:lsb/widgets/custom_Text.dart';
 import 'package:lsb/widgets/drawer.dart';
 
 class Massagescreen extends StatelessWidget {
-  const Massagescreen({super.key});
-  final List<CustomText> tiles = const [
-    CustomText(text: 'message', color: ColorsHelper.white, fontSize: 18),
-  ];
+  final Future<List<String>> messagesFuture;
+  final VoidCallback onRefresh;
+
+  const Massagescreen({
+    super.key,
+    required this.messagesFuture,
+    required this.onRefresh,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -19,38 +23,21 @@ class Massagescreen extends StatelessWidget {
       appBar: AppBar(
         iconTheme: IconThemeData(color: ColorsHelper.orange),
         title: CustomText(
-                text: 'Saved message',
-                color: ColorsHelper.orange,
-                fontSize: 24.sp,
-              ),
+          text: 'Saved message',
+          color: ColorsHelper.orange,
+          fontSize: 24.sp,
+        ),
         backgroundColor: ColorsHelper.black,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.refresh, color: ColorsHelper.orange),
+            onPressed: onRefresh, // 🔄 refresh from parent
+          ),
+        ],
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            SizedBox(height: 20.h),
-            Align(
-              alignment: Alignment.centerLeft,
-              child: CustomText(
-                text: '  Your Messages',
-                color: ColorsHelper.white,
-                fontSize: 24.sp,
-              ),
-            ),
-             Divider(thickness: 1, indent: 10, endIndent: 10, height: 15.h),
-            Padding(
-              padding: const EdgeInsets.only(left: 20.0),
-              child: SizedBox(
-                height: 300.h,
-                width: double.infinity,
-                child:AllMessagesWidget()
-              ),
-            ),
-          ],
-        ),
+        child: AllMessagesWidget(messagesFuture: messagesFuture),
       ),
     );
   }

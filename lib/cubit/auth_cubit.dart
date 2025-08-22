@@ -28,11 +28,20 @@ class AuthCubit extends Cubit<AuthState> {
       if (response.statusCode == 200) {
         emit(Registersuccess());
       } else {
-        emit(RegeisterFailure('Registration failed'));
+        emit(RegeisterFailure(response.data['reason'] ?? 'Registration failed'));
       }
     } catch (e) {
-      emit(RegeisterFailure(e.toString()));
+    if (e is DioException && e.response != null) {
+      final data = e.response?.data;
+      final reason = data is Map<String, dynamic> ? data['reason'] : null;
+
+      emit(RegeisterFailure(
+         reason ?? 'Request failed: ${e.response?.statusCode}',
+      ));
+    } else {
+      emit(RegeisterFailure( e.toString()));
     }
+  }
   }
   Future login({
     required String user_name,
@@ -62,10 +71,19 @@ class AuthCubit extends Cubit<AuthState> {
         emit(LoginSuccess());
         return response.data;
       } else {
-        emit(LoginFailure(message: '$response'));
+        emit(LoginFailure(message: response.data['reason'] ?? 'Login failed'));
       }
     } catch (e) {
+    if (e is DioException && e.response != null) {
+      final data = e.response?.data;
+      final reason = data is Map<String, dynamic> ? data['reason'] : null;
+
+      emit(LoginFailure(
+        message: reason ?? 'Request failed: ${e.response?.statusCode}',
+      ));
+    } else {
       emit(LoginFailure(message: e.toString()));
     }
+  }
   }
   }
