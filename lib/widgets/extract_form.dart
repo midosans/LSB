@@ -6,6 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:lsb/cubit/lsb.state.dart';
 import 'package:lsb/cubit/lsb_cubit.dart';
 import 'package:lsb/helper/Colors_Helper.dart';
+import 'package:lsb/services/internet_checker.dart';
 import 'package:lsb/services/refresh_service.dart';
 import 'package:lsb/widgets/custom_Button.dart';
 import 'package:lsb/widgets/custom_Text.dart';
@@ -123,18 +124,29 @@ class _ExtractFormState extends State<ExtractForm> {
                             text: 'extract',
                             onPressed: () async {
                               FocusScope.of(context).unfocus();
-                              if (await RefreshService()) {
-                                if (formkey.currentState!.validate()) {
-                                  BlocProvider.of<LsbCubit>(context).extract(
-                                    password: password!,
-                                    pickedFile: pickedimg!,
+                              if (await hasInternet()) {
+                                if (await RefreshService()) {
+                                  if (formkey.currentState!.validate()) {
+                                    BlocProvider.of<LsbCubit>(context).extract(
+                                      password: password!,
+                                      pickedFile: pickedimg!,
+                                    );
+                                  }
+                                } else {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(
+                                        "Refresh token expired, please login again",
+                                      ),
+                                      backgroundColor: Colors.red,
+                                    ),
                                   );
                                 }
                               } else {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
                                     content: Text(
-                                      "Refresh token expired, please login again",
+                                      "there is no internet connection",
                                     ),
                                     backgroundColor: Colors.red,
                                   ),

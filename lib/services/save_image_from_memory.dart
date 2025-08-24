@@ -27,13 +27,6 @@ Future<void> saveImageFromMemory(
       skipIfExists: false,
     );
 
-    // Show snackbar on success
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text("Image saved successfully 🎉"),
-        backgroundColor: Colors.green,
-      ),
-    );
   } catch (e) {
     // Show snackbar on error
     ScaffoldMessenger.of(context).showSnackBar(

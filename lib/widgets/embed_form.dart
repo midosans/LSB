@@ -6,6 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:lsb/cubit/lsb.state.dart';
 import 'package:lsb/cubit/lsb_cubit.dart';
 import 'package:lsb/helper/Colors_Helper.dart';
+import 'package:lsb/services/internet_checker.dart';
 import 'package:lsb/services/refresh_service.dart';
 import 'package:lsb/widgets/custom_Button.dart';
 import 'package:lsb/widgets/custom_Text.dart';
@@ -40,13 +41,14 @@ class _EmbedFormState extends State<EmbedForm> {
         } else if (state is EmbedSuccess) {
           showDialog(
             context: context,
-            builder: (context) =>
-                CustomEmbedPopup(image: state.image, bytes: state.bytes),
+            builder:
+                (context) =>
+                    CustomEmbedPopup(image: state.image, bytes: state.bytes),
           );
         }
       },
       builder: (context, state) {
-        return Stack( 
+        return Stack(
           children: [
             SingleChildScrollView(
               child: Padding(
@@ -94,10 +96,8 @@ class _EmbedFormState extends State<EmbedForm> {
                             height: 30.h,
                           ),
                           onPressed: () async {
-                            final XFile? pickedFile =
-                                await ImagePicker().pickImage(
-                              source: ImageSource.gallery,
-                            );
+                            final XFile? pickedFile = await ImagePicker()
+                                .pickImage(source: ImageSource.gallery);
 
                             if (pickedFile == null) return;
 
@@ -135,19 +135,30 @@ class _EmbedFormState extends State<EmbedForm> {
                           text: 'embed',
                           onPressed: () async {
                             FocusScope.of(context).unfocus();
-                            if (await RefreshService()) {
-                              if (formkey.currentState!.validate()) {
-                                BlocProvider.of<LsbCubit>(context).embed(
-                                  message: message!,
-                                  password: password!,
-                                  pickedFile: pickedimg!,
+                            if (await hasInternet()) {
+                              if (await RefreshService()) {
+                                if (formkey.currentState!.validate()) {
+                                  BlocProvider.of<LsbCubit>(context).embed(
+                                    message: message!,
+                                    password: password!,
+                                    pickedFile: pickedimg!,
+                                  );
+                                }
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                      "Refresh token expired, please login again",
+                                    ),
+                                    backgroundColor: Colors.red,
+                                  ),
                                 );
                               }
                             } else {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
                                   content: Text(
-                                    "Refresh token expired, please login again",
+                                    "there is no internet connection",
                                   ),
                                   backgroundColor: Colors.red,
                                 ),
@@ -163,11 +174,9 @@ class _EmbedFormState extends State<EmbedForm> {
             ),
             if (state is EmbedLoading)
               Container(
-                color: Colors.black.withOpacity(0.4), 
+                color: Colors.black.withOpacity(0.4),
                 child: const Center(
-                  child: CircularProgressIndicator(
-                    color: Colors.orange,
-                  ),
+                  child: CircularProgressIndicator(color: Colors.orange),
                 ),
               ),
           ],

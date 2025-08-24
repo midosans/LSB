@@ -5,6 +5,7 @@ import 'package:lsb/cubit/auth_cubit.dart';
 import 'package:lsb/cubit/auth_state.dart';
 import 'package:lsb/helper/Colors_Helper.dart';
 import 'package:lsb/pages/home.dart';
+import 'package:lsb/services/internet_checker.dart';
 import 'package:lsb/widgets/custom_Button.dart';
 import 'package:lsb/widgets/custom_TextField.dart';
 
@@ -96,6 +97,7 @@ class _SignupWidgetState extends State<SignupForm> {
                         size: Size(170.w, 50.h),
                         color: ColorsHelper.orange,
                         onPressed: () async {
+                          if (await hasInternet()) {
                           if (formkey.currentState!.validate()) {
                             BlocProvider.of<AuthCubit>(context).register(
                               user_name: userName!,
@@ -103,6 +105,17 @@ class _SignupWidgetState extends State<SignupForm> {
                               pass_confirm: pass_confirm!,
                             );
                           }
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                  "there is no internet connection",
+                                ),
+                                backgroundColor: Colors.red,
+                              ),
+                            );
+                          }
+
                         },
                         text: 'register',
                       ),
