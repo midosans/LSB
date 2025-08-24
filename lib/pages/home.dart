@@ -19,11 +19,13 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int index = 0;
   late Future<List<String>> messagesFuture;
+  late PageController _pageController;
 
   @override
   void initState() {
     super.initState();
     messagesFuture = _loadMessages();
+    _pageController = PageController(initialPage: 0);
   }
 
   Future<List<String>> _loadMessages() async {
@@ -37,34 +39,60 @@ class _HomePageState extends State<HomePage> {
   }
 
   @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final screens = [
       Homescreen(),
       Embedscreen(),
       Extractscreen(),
-      Massagescreen(messagesFuture: messagesFuture, onRefresh: () {
-        setState(() {
-          messagesFuture = _loadMessages();
-        });
-      }),
+      Massagescreen(
+        messagesFuture: messagesFuture,
+        onRefresh: () {
+          setState(() {
+            messagesFuture = _loadMessages();
+          });
+        },
+      ),
     ];
 
     return Scaffold(
       extendBody: true,
-      body: screens[index],
-      bottomNavigationBar: CurvedNavigationBar(
-        color: ColorsHelper.orange,
-        backgroundColor: Colors.transparent,
-        animationDuration: Duration(milliseconds: 300),
-        height: 48.h,
-        index: index,
-        items: <Widget>[
-          Image.asset('assets/home.png', width: 30.w, height: 30.h),
-          Image.asset('assets/decoder.png', width: 30.w, height: 30.h),
-          Image.asset('assets/encoder.png', width: 30.w, height: 30.h),
-          Image.asset('assets/saves.png', width: 30.w, height: 30.h),
-        ],
-        onTap: (i) => setState(() => index = i),
+      body: PageView(
+        controller: _pageController,
+        children: screens,
+        onPageChanged: (page) {
+          setState(() {
+            index = page;
+          });
+        },
+      ),
+      bottomNavigationBar: SafeArea(
+        child: CurvedNavigationBar(
+          color: ColorsHelper.orange,
+          backgroundColor: Colors.transparent,
+          animationDuration: Duration(milliseconds: 300),
+          height: 48.h,
+          index: index,
+          items: <Widget>[
+            Image.asset('assets/home.png', width: 30.w, height: 30.h),
+            Image.asset('assets/decoder.png', width: 30.w, height: 30.h),
+            Image.asset('assets/encoder.png', width: 30.w, height: 30.h),
+            Image.asset('assets/saves.png', width: 30.w, height: 30.h),
+          ],
+          onTap: (i) {
+            setState(() => index = i);
+            _pageController.animateToPage(
+              i,
+              duration: Duration(milliseconds: 300),
+              curve: Curves.easeInOut,
+            );
+          },
+        ),
       ),
     );
   }

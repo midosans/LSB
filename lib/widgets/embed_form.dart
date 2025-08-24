@@ -134,6 +134,7 @@ class _EmbedFormState extends State<EmbedForm> {
                           color: ColorsHelper.orange,
                           text: 'embed',
                           onPressed: () async {
+                            FocusScope.of(context).unfocus();
                             if (await RefreshService()) {
                               if (formkey.currentState!.validate()) {
                                 BlocProvider.of<LsbCubit>(context).embed(

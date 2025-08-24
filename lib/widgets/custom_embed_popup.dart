@@ -54,6 +54,7 @@ class CustomEmbedPopup extends StatelessWidget {
                   onPressed: () async {
                     try {
                       await saveImageFromMemory(
+                        context,
                         bytes,
                         "embedded.png",
                       ); // use helper

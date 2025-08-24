@@ -1,22 +1,76 @@
 import 'dart:typed_data';
+import 'package:flutter/material.dart';
 import 'package:lsb/services/image_permissions_checker.dart';
 import 'package:saver_gallery/saver_gallery.dart';
 
-Future<void> saveImageFromMemory(Uint8List bytes, String filename) async {
-  final hasPermission =await checkAndRequestPermissions(skipIfExists: false);
-  if (hasPermission) {
-    try {
-      await SaverGallery.saveImage(
-        bytes,
-        fileName: filename,
-        androidRelativePath: "Pictures/LSB Secret",
-        skipIfExists: false,
-      );
-    } catch (e) {
-      throw Exception("Failed to save image: $e");
-    }
-  } 
+Future<void> saveImageFromMemory(
+    BuildContext context, Uint8List bytes, String filename) async {
+  final hasPermission =
+      await checkAndRequestPermissions(skipIfExists: false);
+
+  if (!hasPermission) {
+    // Show snackbar if no permission
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text("Permission denied. Cannot save image."),
+        backgroundColor: Colors.red,
+      ),
+    );
+    return;
+  }
+
+  try {
+    await SaverGallery.saveImage(
+      bytes,
+      fileName: filename,
+      androidRelativePath: "Pictures/LSB Secret",
+      skipIfExists: false,
+    );
+
+    // Show snackbar on success
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text("Image saved successfully 🎉"),
+        backgroundColor: Colors.green,
+      ),
+    );
+  } catch (e) {
+    // Show snackbar on error
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text("Failed to save image: $e"),
+        backgroundColor: Colors.red,
+      ),
+    );
+  }
 }
+
+
+
+
+
+
+
+
+// import 'dart:typed_data';
+// import 'package:lsb/services/image_permissions_checker.dart';
+// import 'package:saver_gallery/saver_gallery.dart';
+
+// Future<void> saveImageFromMemory(Uint8List bytes, String filename) async {
+//   final hasPermission =await checkAndRequestPermissions(skipIfExists: false);
+//   if (hasPermission) {
+//     try {
+//       await SaverGallery.saveImage(
+//         bytes,
+//         fileName: filename,
+//         androidRelativePath: "Pictures/LSB Secret",
+//         skipIfExists: false,
+//       );
+//     } catch (e) {
+//       throw Exception("Failed to save image: $e");
+//     }
+//   } 
+// }
 
 
 

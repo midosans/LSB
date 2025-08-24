@@ -14,7 +14,7 @@ class AllMessagesWidget extends StatelessWidget {
       future: messagesFuture,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator(color: ColorsHelper.orange,));
         }
 
         if (snapshot.hasError) {

@@ -75,17 +75,24 @@ class LsbCubit extends Cubit<LsbState> {
       }
     } 
     catch (e) {
-    if (e is DioException && e.response != null) {
-      final data = e.response?.data;
-      final reason = data is Map<String, dynamic> ? data['reason'] : null;
+  if (e is DioException && e.response != null) {
+    final data = e.response?.data;
 
-      emit(EmbedFailure(
-        message: reason ?? 'Request failed: ${e.response?.statusCode}',
-      ));
-    } else {
-      emit(EmbedFailure(message: e.toString()));
+    String? reason;
+    if (data is Map<String, dynamic>) {
+      reason = data['reason']?.toString();
+    } else if (data is String) {
+      // In case backend sends plain text error
+      reason = data;
     }
+
+    emit(EmbedFailure(
+      message: reason ?? 'Request failed',
+    ));
+  } else {
+    emit(EmbedFailure(message: e.toString()));
   }
+}
   }
   Future<void> extract({
     required String password,
@@ -110,8 +117,8 @@ class LsbCubit extends Cubit<LsbState> {
         // On mobile/desktop we can use fromFile
         multipartImage = await MultipartFile.fromFile(
           pickedFile.path,
-          filename: "image.png",
-          contentType: MediaType("image", "png"),
+          // filename: "image.png",
+          // contentType: MediaType("image", "png"),
         );
       }
       final formData = FormData.fromMap({
@@ -144,17 +151,24 @@ class LsbCubit extends Cubit<LsbState> {
         );
       }
     } catch (e) {
-    if (e is DioException && e.response != null) {
-      final data = e.response?.data;
-      final reason = data is Map<String, dynamic> ? data['reason'] : null;
+  if (e is DioException && e.response != null) {
+    final data = e.response?.data;
 
-      emit(ExtractFailure(
-        message: reason ?? 'Request failed: ${e.response?.statusCode}',
-      ));
-    } else {
-      emit(ExtractFailure(message: e.toString()));
+    String? reason;
+    if (data is Map<String, dynamic>) {
+      reason = data['reason']?.toString();
+    } else if (data is String) {
+      // In case backend sends plain text error
+      reason = data;
     }
+
+    emit(ExtractFailure(
+      message: reason ?? 'Request failed',
+    ));
+  } else {
+    emit(ExtractFailure(message: e.toString()));
   }
+}
   }
    Future saveMessage({
     required String message,
@@ -187,16 +201,22 @@ class LsbCubit extends Cubit<LsbState> {
           ));
       }
     } catch (e) {
-    if (e is DioException && e.response != null) {
-      final data = e.response?.data;
-      final reason = data is Map<String, dynamic> ? data['reason'] : null;
+  if (e is DioException && e.response != null) {
+    final data = e.response?.data;
 
-      emit(SaveMessageFailure(
-        message: reason ?? 'Request failed: ${e.response?.statusCode}',
-      ));
-    } else {
-      emit(SaveMessageFailure(message: e.toString()));
+    String? reason;
+    if (data is Map<String, dynamic>) {
+      reason = data['reason']?.toString();
+    } else if (data is String) {
+      reason = data;
     }
+
+    emit(SaveMessageFailure(
+      message: reason ?? 'Request failed',
+    ));
+  } else {
+    emit(SaveMessageFailure(message: e.toString()));
   }
+}
   }
 }

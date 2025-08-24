@@ -31,17 +31,23 @@ class AuthCubit extends Cubit<AuthState> {
         emit(RegeisterFailure(response.data['reason'] ?? 'Registration failed'));
       }
     } catch (e) {
-    if (e is DioException && e.response != null) {
-      final data = e.response?.data;
-      final reason = data is Map<String, dynamic> ? data['reason'] : null;
+  if (e is DioException && e.response != null) {
+    final data = e.response?.data;
 
-      emit(RegeisterFailure(
-         reason ?? 'Request failed: ${e.response?.statusCode}',
-      ));
-    } else {
-      emit(RegeisterFailure( e.toString()));
+    String? reason;
+    if (data is Map<String, dynamic>) {
+      reason = data['reason']?.toString();
+    } else if (data is String) {
+      reason = data;
     }
+
+    emit(RegeisterFailure(
+       reason ?? 'Request failed',
+    ));
+  } else {
+    emit(RegeisterFailure( e.toString()));
   }
+}
   }
   Future login({
     required String user_name,
@@ -63,9 +69,9 @@ class AuthCubit extends Cubit<AuthState> {
       if (response.statusCode == 200 && response.data is Map<String, dynamic>) {
         final responseData = response.data as Map<String, dynamic>;
         final perf = await SharedPreferences.getInstance();
-        if (rememberMe) {
           await perf.setString('user_name', user_name);
           await perf.setString('token', responseData['access_token']);
+        if (rememberMe) {
           await perf.setString('refresh_token', responseData['refresh_token']);
         }
         emit(LoginSuccess());
@@ -74,16 +80,23 @@ class AuthCubit extends Cubit<AuthState> {
         emit(LoginFailure(message: response.data['reason'] ?? 'Login failed'));
       }
     } catch (e) {
-    if (e is DioException && e.response != null) {
-      final data = e.response?.data;
-      final reason = data is Map<String, dynamic> ? data['reason'] : null;
+  if (e is DioException && e.response != null) {
+    final data = e.response?.data;
 
-      emit(LoginFailure(
-        message: reason ?? 'Request failed: ${e.response?.statusCode}',
-      ));
-    } else {
-      emit(LoginFailure(message: e.toString()));
+    String? reason;
+    if (data is Map<String, dynamic>) {
+      reason = data['reason']?.toString();
+    } else if (data is String) {
+      // In case backend sends plain text error
+      reason = data;
     }
+
+    emit(LoginFailure(
+      message: reason ?? 'Request failed',
+    ));
+  } else {
+    emit(LoginFailure(message: e.toString()));
   }
+}
   }
   }

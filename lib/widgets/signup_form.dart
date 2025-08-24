@@ -35,11 +35,13 @@ class _SignupWidgetState extends State<SignupForm> {
             ),
           );
           Future.delayed(Duration(seconds: 2));
+          BlocProvider.of<AuthCubit>(
+            context,
+          ).login(user_name: userName!, password: password!, rememberMe: true);
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(builder: (context) => HomePage()),
           );
-          
         }
       },
       builder:

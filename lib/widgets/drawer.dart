@@ -79,6 +79,8 @@ class _HomeDrawerState extends State<HomeDrawer> {
                   SharedPreferences prefs =
                       await SharedPreferences.getInstance();
                   await prefs.remove('token');
+                  await prefs.remove('refresh_token');
+                  await prefs.remove('user_name');
                   if (context.mounted) {
                     Navigator.pushAndRemoveUntil(
                       context,

@@ -47,113 +47,123 @@ class _ExtractFormState extends State<ExtractForm> {
         }
       },
       builder: (context, state) {
-        return Stack(
-  children: [
-    SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-        child: Form(
-          key: formkey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.start,
+        return SizedBox.expand(
+          // makes the Stack fill the entire screen
+          child: Stack(
             children: [
-              SizedBox(height: 20.h),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: CustomText(
-                  text: 'Upload Image',
-                  color: ColorsHelper.white,
-                  fontSize: 18.sp,
-                ),
-              ),
-              SizedBox(height: 10.h),
-              CustomTextfield(
-                controller: _controller,
-                readOnly: true,
-                LabelText: 'Enter image URL',
-                SuffixIcon: IconButton(
-                  icon: Image.asset(
-                    'assets/download.png',
-                    width: 30.w,
-                    height: 30.h,
+              SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 20,
                   ),
-                  onPressed: () async {
-                    final XFile? pickedFile =
-                        await ImagePicker().pickImage(source: ImageSource.gallery);
-
-                    if (pickedFile == null) return;
-
-                    setState(() {
-                      pickedimg = pickedFile;
-                      imageName = basename(pickedFile.path);
-                      _controller.text = imageName;
-                    });
-                  },
-                ),
-              ),
-              SizedBox(height: 20.h),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: CustomText(
-                  text: 'Password',
-                  color: ColorsHelper.white,
-                  fontSize: 18.sp,
-                ),
-              ),
-              SizedBox(height: 10.h),
-              CustomTextfield(
-                LabelText: 'Enter your Password',
-                IsObscureText: isObscureText,
-                onChanged: (value) {
-                  password = value;
-                },
-              ),
-              SizedBox(height: 70.h),
-              Align(
-                alignment: Alignment.bottomRight,
-                child: CustomButton(
-                  size: Size(150.w, 50.h),
-                  color: ColorsHelper.orange,
-                  text: 'extract',
-                  onPressed: () async {
-                    if (await RefreshService()) {
-                      if (formkey.currentState!.validate()) {
-                        BlocProvider.of<LsbCubit>(context).extract(
-                          password: password!,
-                          pickedFile: pickedimg!,
-                        );
-                      }
-                    } else {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(
-                            "Refresh token expired, please login again",
+                  child: Form(
+                    key: formkey,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        SizedBox(height: 20.h),
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: CustomText(
+                            text: 'Upload Image',
+                            color: ColorsHelper.white,
+                            fontSize: 18.sp,
                           ),
-                          backgroundColor: Colors.red,
                         ),
-                      );
-                    }
-                  },
+                        SizedBox(height: 10.h),
+                        CustomTextfield(
+                          controller: _controller,
+                          readOnly: true,
+                          LabelText: 'Enter image URL',
+                          SuffixIcon: IconButton(
+                            icon: Image.asset(
+                              'assets/download.png',
+                              width: 30.w,
+                              height: 30.h,
+                            ),
+                            onPressed: () async {
+                              final XFile? pickedFile = await ImagePicker()
+                                  .pickImage(source: ImageSource.gallery);
+
+                              if (pickedFile == null) return;
+
+                              setState(() {
+                                pickedimg = pickedFile;
+                                imageName = basename(pickedFile.path);
+                                _controller.text = imageName;
+                              });
+                            },
+                          ),
+                        ),
+                        SizedBox(height: 20.h),
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: CustomText(
+                            text: 'Password',
+                            color: ColorsHelper.white,
+                            fontSize: 18.sp,
+                          ),
+                        ),
+                        SizedBox(height: 10.h),
+                        CustomTextfield(
+                          LabelText: 'Enter your Password',
+                          IsObscureText: isObscureText,
+                          onChanged: (value) {
+                            password = value;
+                          },
+                        ),
+                        SizedBox(height: 70.h),
+                        Align(
+                          alignment: Alignment.bottomRight,
+                          child: CustomButton(
+                            size: Size(150.w, 50.h),
+                            color: ColorsHelper.orange,
+                            text: 'extract',
+                            onPressed: () async {
+                              FocusScope.of(context).unfocus();
+                              if (await RefreshService()) {
+                                if (formkey.currentState!.validate()) {
+                                  BlocProvider.of<LsbCubit>(context).extract(
+                                    password: password!,
+                                    pickedFile: pickedimg!,
+                                  );
+                                }
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                      "Refresh token expired, please login again",
+                                    ),
+                                    backgroundColor: Colors.red,
+                                  ),
+                                );
+                              }
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
               ),
+              if (state is ExtractLoading)
+                Positioned.fill(
+                  child: Container(
+                    color: Colors.black.withOpacity(
+                      0.3,
+                    ), // semi-transparent background
+                    child: Center(
+                      child: CircularProgressIndicator(
+                        color: ColorsHelper.orange,
+                      ),
+                    ),
+                  ),
+                ),
             ],
           ),
-        ),
-      ),
-    ),
-    if (state is ExtractLoading)
-      Positioned.fill(
-        child: Container(
-          color: Colors.black.withOpacity(0.3), // semi-transparent background
-          child: Center(
-            child: CircularProgressIndicator(color: ColorsHelper.orange),
-          ),
-        ),
-      ),
-  ],
-);
-
+        );
       },
     );
   }
