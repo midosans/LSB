@@ -4,6 +4,8 @@ Steganography Made Simple & Secure
 
 Welcome to LSB_Secret — a powerful, secure steganography application that lets you embed secret messages inside images using the Least Significant Bit (LSB) technique.
 
+This project is a port of an existing steganography app, rebuilt with Flutter for cross-platform support and extended with a dedicated Flask backend.
+
 Designed for Desktop, Mobile, and Web, our solution ensures message protection, pixel by pixel.
 
 # 🚀 Features
