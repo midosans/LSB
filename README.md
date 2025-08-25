@@ -1,16 +1,32 @@
-# lsb
+# 🕵️‍♂️ LSB_Secret
 
-A new Flutter project.
+Steganography Made Simple & Secure
 
-## Getting Started
+Welcome to LSB_Secret — a powerful, secure steganography application that lets you embed secret messages inside images using the Least Significant Bit (LSB) technique.
 
-This project is a starting point for a Flutter application.
+Designed for Desktop, Mobile, and Web, our solution ensures message protection, pixel by pixel.
 
-A few resources to get you started if this is your first Flutter project:
+# 🚀 Features
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+🔒 Secure Message Embedding – hide text inside images using LSB
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+🖼️ Image Support – upload, encode, and decode seamlessly
+
+📱 Cross-Platform – available for Desktop (Windows/Linux), Mobile (Flutter), and Web
+
+🌐 API Integration – Flask backend with JWT-based authentication
+
+🎨 Responsive UI – clean design with flutter_screenutil for adaptive layouts
+
+# 🛠️ Tech Stack
+Frontend (Mobile/Desktop/Web)
+
+Flutter (Dart)
+
+Bloc / Cubit for state management
+
+Dio for HTTP requests
+
+Image Picker for media handling
+
+Shared Preferences for secure local storage
