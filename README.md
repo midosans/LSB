@@ -16,8 +16,6 @@ Designed for Desktop, Mobile, and Web, our solution ensures message protection, 
 
 📱 Cross-Platform – available for Desktop (Windows/Linux), Mobile (Flutter), and Web
 
-🌐 API Integration – Flask backend with JWT-based authentication
-
 🎨 Responsive UI – clean design with flutter_screenutil for adaptive layouts
 
 # 🛠️ Tech Stack
